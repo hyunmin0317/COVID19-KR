@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import urllib.request
 import pandas as pd
 from django.shortcuts import render
+import matplotlib.pyplot as plt
 from .models import Covid19
 
 def covid19():
@@ -31,10 +32,6 @@ def covid19():
     columns.append('today')
     data[0] = [20200120, 0, 0, 0, 0, 0, 0, 0]
 
-    # today = data[2][1] - data[1][1]
-
-    # i 는 1 부터 len(data)-1
-
     for i in range(len(data)):
         if i != 0:
             today = data[i][1] - data[i - 1][1]
@@ -47,6 +44,11 @@ def covid19():
     for i in range(len(data)):
         date.append(data[i][0])
         today.append(data[i][7])
+    plt.plot_date(date, today,linestyle ='solid')
+    plt.gcf().set_size_inches(8, 6)
+    plt.tight_layout()
+    fig = plt.gcf()
+    fig.savefig('confirmed.png')
     return data[-1]
 
 def home(request):
