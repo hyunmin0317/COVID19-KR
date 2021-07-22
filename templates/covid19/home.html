@@ -24,7 +24,7 @@
         [
           ['Date', 'confirmed'],
           {% for d in data_week %}
-            [{{d}}, {{d.today}}],
+            [Date({{d}}), {{d.today}}],
           {% endfor %}
         ]);
 
@@ -37,6 +37,25 @@
           }
         };
 
+<!--        var options = {-->
+<!--        title: 'view count',-->
+<!--        width: 900,-->
+<!--        height: 500,-->
+<!--        hAxis: {-->
+<!--            format: 'MM-dd',-->
+<!--            gridlines: {-->
+<!--                count: 90-->
+<!--            }-->
+<!--        },-->
+<!--        vAxis: {-->
+<!--            minValue: 0,-->
+<!--            gridlines: {-->
+<!--                color: '#f3f3f3',-->
+<!--                count: 6-->
+<!--                }-->
+<!--            }-->
+<!--        };-->
+
         var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
 
         chart.draw(data, google.charts.Bar.convertOptions(options));
@@ -45,6 +64,8 @@
   </head>
   <body>
     <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+    <div id="columnchart" style="width: 800px; height: 500px;"></div>
+
   </body>
 </html>
 
