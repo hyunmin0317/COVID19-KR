@@ -53,30 +53,29 @@ def visualize():
         date.append(data.date)
         values.append(data.today)
 
+    x = np.arange(7)
+    date_week = []
+    values_week = []
+    i = 0
+    data_list = Data.objects.order_by('-date')
+
+    for data in data_list:
+        i += 1
+        if (i == 8):
+            break
+        date_week.append(data.date.strftime("%m-%d"))
+        values_week.append(data.today)
+    date_week.reverse()
+    values_week.reverse()
+
     plt.plot_date(date, values, linestyle='solid')
     plt.gcf().set_size_inches(8, 6)
     plt.tight_layout()
     plt.savefig('covid19-all.png')
     plt.clf()
 
-def visualize2():
-    x = np.arange(7)
-    date = []
-    values = []
-    i = 0
-    data_list = Data.objects.order_by('-date')
-
-    for data in data_list:
-        i+=1
-        if(i==8):
-            break
-        date.append(data.date.strftime("%m-%d"))
-        values.append(data.today)
-    date.reverse()
-    values.reverse()
-
-    plt.bar(x, values)
-    plt.xticks(x, date)
+    plt.bar(x, values_week)
+    plt.xticks(x, date_week)
     plt.savefig('covid19-week.png')
     plt.clf()
 
@@ -85,10 +84,18 @@ def home(request):
     data = covid19()
     for d in data:
         save(d[0], d[1], d[2], d[3], d[6], d[7])
+    # visualize()
 
-    visualize()
-    visualize2()
+    data_week = []
     data_list = Data.objects.order_by('-date')
+    i = 0
+    for data in data_list:
+        i += 1
+        if (i == 8):
+            break
+        data_week.append(data)
+    data_week.reverse()
+    data_list.reverse()
     today = Data.objects.last()
-    context = {'data':today, 'data_list':data_list}
+    context = {'data':today, 'data_list':data_list, 'data_week':data_week}
     return render(request, 'covid19/home.html', context)

@@ -11,9 +11,47 @@
     <h4>데이터가 없습니다.</h4>
 {% endif %}
 
-{% load static %}
-<img src="{% static 'covid19-all.png' %}">
-<img src="{% static 'covid19-week.png' %}">
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var a = {{data.today}}
+        var data = google.visualization.arrayToDataTable(
+        [
+          ['Date', 'confirmed'],
+          {% for d in data_week %}
+            [{{d}}, {{d.today}}],
+          {% endfor %}
+        ]);
+
+
+
+        var options = {
+          chart: {
+            title: 'Company Performance',
+            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+  </head>
+  <body>
+    <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+  </body>
+</html>
+
+
+<!--{% load static %}-->
+<!--<img src="{% static 'covid19-all.png' %}">-->
+<!--<img src="{% static 'covid19-week.png' %}">-->
 
 <!--{% if data_list %}-->
 <!--    <ul>-->
