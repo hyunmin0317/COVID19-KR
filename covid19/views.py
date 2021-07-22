@@ -6,6 +6,7 @@ import urllib.request
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime
 
 
 def delete():
@@ -71,6 +72,8 @@ def visualize2():
             break
         date.append(data.date.strftime("%m-%d"))
         values.append(data.today)
+    date.reverse()
+    values.reverse()
 
     plt.bar(x, values)
     plt.xticks(x, date)
@@ -82,7 +85,8 @@ def home(request):
     data = covid19()
     for d in data:
         save(d[0], d[1], d[2], d[3], d[6], d[7])
-    # visualize()
+
+    visualize()
     visualize2()
     data_list = Data.objects.order_by('-date')
     today = Data.objects.last()
