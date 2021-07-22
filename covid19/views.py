@@ -49,5 +49,6 @@ def home(request):
         save(d[0], d[1], d[2], d[3], d[6], d[7])
 
     data_list = Data.objects.order_by('-date')
-    context = {'data_list':data_list}
+    today = Data.objects.last()
+    context = {'data':today, 'data_list':data_list}
     return render(request, 'covid19/home.html', context)
