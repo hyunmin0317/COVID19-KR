@@ -3,9 +3,7 @@ from covid19.models import Data
 from urllib import request
 from bs4 import BeautifulSoup
 import urllib.request
-from datetime import datetime
 import pandas as pd
-# Create your views here.
 
 def delete():
     d = Data.objects.all()
@@ -39,7 +37,6 @@ def covid19():
         if i != 0:
             today = data[i][1] - data[i - 1][1]
             data[i][7] = today
-        # data[i][0] = datetime.strptime(data[i][0], '%Y%m%d')
         data[i][0] = pd.to_datetime(data[i][0], format='%Y%m%d')
 
     return data
@@ -51,6 +48,6 @@ def home(request):
     for d in data:
         save(d[0], d[1], d[2], d[3], d[6], d[7])
 
-    data_list = Data.objects.order_by('date')
+    data_list = Data.objects.order_by('-date')
     context = {'data_list':data_list}
     return render(request, 'covid19/home.html', context)

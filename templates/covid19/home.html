@@ -1,8 +1,9 @@
 <h1>코로나 대시보드</h1>
 
 {% if data_list %}
-    {% for data in data_list}
-    <h4>{{data.confirmed}}</h4>
+    {% for data in data_list %}
+    <h4>{{data.date}}</h4>
+    {% endfor %}
 {% else %}
     <h4>데이터가 없습니다.</h4>
 {% endif %}
