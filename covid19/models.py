@@ -10,6 +10,3 @@ class Data(models.Model):
     released = models.IntegerField()
     tested = models.IntegerField()
     today = models.IntegerField()
-
-    def __str__(self):
-        return self.date
