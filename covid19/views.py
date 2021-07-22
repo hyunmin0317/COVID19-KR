@@ -46,35 +46,43 @@ def covid19():
 
 def visualize():
     date = []
-    today = []
+    values = []
     data_list = Data.objects.order_by('date')
     for data in data_list:
         date.append(data.date)
-        today.append(data.today)
+        values.append(data.today)
 
-    plt.plot_date(date, today, linestyle='solid')
+    plt.plot_date(date, values, linestyle='solid')
     plt.gcf().set_size_inches(8, 6)
     plt.tight_layout()
     plt.savefig('covid19-all.png')
     plt.clf()
 
 def visualize2():
-    x = np.arange(3)
-    years = ['2017', '2018', '2019']
-    values = [100, 400, 900]
+    x = np.arange(7)
+    date = []
+    values = []
+    i = 0
+    data_list = Data.objects.order_by('-date')
+
+    for data in data_list:
+        i+=1
+        if(i==8):
+            break
+        date.append(data.date.strftime("%m-%d"))
+        values.append(data.today)
+
     plt.bar(x, values)
-    plt.xticks(x, years)
+    plt.xticks(x, date)
     plt.savefig('covid19-week.png')
     plt.clf()
-
-
 
 def home(request):
     delete()
     data = covid19()
     for d in data:
         save(d[0], d[1], d[2], d[3], d[6], d[7])
-    visualize()
+    # visualize()
     visualize2()
     data_list = Data.objects.order_by('-date')
     today = Data.objects.last()
