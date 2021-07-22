@@ -4,6 +4,9 @@ from urllib import request
 from bs4 import BeautifulSoup
 import urllib.request
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 def delete():
     d = Data.objects.all()
@@ -41,13 +44,25 @@ def covid19():
 
     return data
 
+def visualize():
+    name = 'covid19-KR'
+    date = []
+    today = []
+    data_list = Data.objects.order_by('date')
+    for data in data_list:
+        date.append(data.date)
+        today.append(data.today)
+    plt.plot_date(date, today, linestyle='solid')
+    plt.gcf().set_size_inches(8, 6)
+    plt.tight_layout()
+    plt.savefig('./' + name + '.png')
 
 def home(request):
     delete()
     data = covid19()
     for d in data:
         save(d[0], d[1], d[2], d[3], d[6], d[7])
-
+    visualize()
     data_list = Data.objects.order_by('-date')
     today = Data.objects.last()
     context = {'data':today, 'data_list':data_list}
