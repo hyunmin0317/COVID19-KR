@@ -3,4 +3,7 @@ from .models import Data
 
 # Register your models here.
 
-admin.site.register(Data)
+class DataAdmin(admin.ModelAdmin):
+    search_fields = ['date']
+
+admin.site.register(Data, DataAdmin)
