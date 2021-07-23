@@ -1,7 +1,7 @@
 <h1>코로나 대시보드</h1>
 
 {% if data %}
-    <h4>{{data.date}} 업데이트</h4>
+    <h4>{{data.update}} 업데이트</h4>
     <h4>누적 확진자: {{data.confirmed}}</h4>
     <h4>신규 확진자: {{data.today}}</h4>
     <h4>사망자: {{data.death}}</h4>
@@ -11,61 +11,66 @@
     <h4>데이터가 없습니다.</h4>
 {% endif %}
 
+{% for d in data_week %}
+<h5>{{d}}</h5>
+<h5>{{d.today}}</h5>
+{% endfor %}
+
 <html>
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['bar']});
+      google.charts.load('current', {'packages':['corechart', 'bar']});
+      google.charts.load('current', {packages: ['corechart', 'line']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var a = {{data.today}}
-        var data = google.visualization.arrayToDataTable(
-        [
-          ['Date', 'confirmed'],
-          {% for d in data_week %}
-            [Date({{d}}), {{d.today}}],
-          {% endfor %}
-        ]);
+        var data_week = new google.visualization.DataTable();
+        data_week.addColumn('string', '날짜');
+        data_week.addColumn('number', '확진자');
 
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', '날짜');
+        data.addColumn('number', '확진자');
 
+        data_week.addRows([
+            {% for d in data_week %}
+            ['{{d.string}}', {{d.today}}],
+            {% endfor %}
+          ]);
 
-        var options = {
-          chart: {
-            title: 'Company Performance',
-            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-          }
+        data.addRows([
+            {% for d in data_list %}
+            [new Date('{{d}}'), {{d.today}}],
+            {% endfor %}
+          ]);
+
+        var week_options = {
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0
+        },
+          width: 800,
+          height: 500,
         };
 
-<!--        var options = {-->
-<!--        title: 'view count',-->
-<!--        width: 900,-->
-<!--        height: 500,-->
-<!--        hAxis: {-->
-<!--            format: 'MM-dd',-->
-<!--            gridlines: {-->
-<!--                count: 90-->
-<!--            }-->
-<!--        },-->
-<!--        vAxis: {-->
-<!--            minValue: 0,-->
-<!--            gridlines: {-->
-<!--                color: '#f3f3f3',-->
-<!--                count: 6-->
-<!--                }-->
-<!--            }-->
-<!--        };-->
+        var options = {
+          bars: 'vertical',
+          width: 800,
+          height: 500,
+        };
 
-        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+        var chart = new google.visualization.BarChart(document.getElementById('chart_week'));
+        chart.draw(data_week, week_options);
 
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-      }
+        var charts = new google.visualization.LineChart(document.getElementById('chart_all'));
+        charts.draw(data, options);
+        }
     </script>
   </head>
   <body>
-    <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
-    <div id="columnchart" style="width: 800px; height: 500px;"></div>
-
+    <div id="chart_week" style="width: 800px; height: 500px;"></div>
+    <div id="chart_all" style="width: 800px; height: 500px;"></div>
   </body>
 </html>
 

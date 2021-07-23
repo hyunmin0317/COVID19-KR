@@ -42,6 +42,7 @@ def covid19():
             today = data[i][1] - data[i - 1][1]
             data[i][7] = today
         data[i][0] = pd.to_datetime(data[i][0], format='%Y%m%d')
+        data[i][0] -= datetime.timedelta(1)
 
     return data
 

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -13,3 +15,10 @@ class Data(models.Model):
 
     def __str__(self):
         return self.date.strftime('%Y-%m-%d')
+
+    def string(self):
+        return self.date.strftime('%m.%d')
+
+    def update(self):
+        update_date = self.date + datetime.timedelta(1)
+        return update_date
