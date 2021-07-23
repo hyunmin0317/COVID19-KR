@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'jumbotron-narrow.css' %}">
     <!-- JS -->
+    <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -43,8 +44,8 @@
                 vAxis: {
                   minValue: 0
                 },
-                  width: 800,
-                  height: 500,
+                  width: 700,
+                  height: 400,
                 };
 
                 var options = {
@@ -52,8 +53,8 @@
                   vAxis: {
                       minValue: 0
                     },
-                  width: 800,
-                  height: 500,
+                  width: 700,
+                  height: 400,
                 };
 
                 var chart = new google.visualization.ColumnChart(document.getElementById('chart_week'));
@@ -68,16 +69,37 @@
 </head>
 <body>
 
-<div class="container">
-      <div class="header">
-        <h3 class="text-muted">Project name</h3>
-      </div>
+<div align="center" class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+            <a class="navbar-brand" href="{% url 'covid19:home' %}">COVID19-KR</a>
+            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#">로그인</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-      <div class="jumbotron">
-        <h1>Jumbotron heading</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="http://bootstrapk.com/examples/jumbotron-narrow/#" role="button">Sign up today</a></p>
-      </div>
+    <h1> </h1>
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+
+        <h3>신규 합계</h3>
+        <h3>{{data.today}}</h3>
+        <div id="chart_week" style="width: 700px; height: 400px;"></div>
+        <div id="chart_all" style="width: 700px; height: 400px;"></div>
 
       <div class="row marketing">
         <div class="col-lg-6">
@@ -122,9 +144,5 @@
 {% else %}
     <h4>데이터가 없습니다.</h4>
 {% endif %}
-
-    <div id="chart_week" style="width: 800px; height: 500px;"></div>
-    <div id="chart_all" style="width: 800px; height: 500px;"></div>
-
   </body>
 </html>
