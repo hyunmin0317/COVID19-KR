@@ -46,8 +46,8 @@
           ]);
 
         var week_options = {
-        hAxis: {
-          title: 'Total Population',
+        title: '일별 신규 확진자수',
+        vAxis: {
           minValue: 0
         },
           width: 800,
@@ -55,12 +55,15 @@
         };
 
         var options = {
-          bars: 'vertical',
+          title: '확진자수 추이',
+          vAxis: {
+              minValue: 0
+            },
           width: 800,
           height: 500,
         };
 
-        var chart = new google.visualization.BarChart(document.getElementById('chart_week'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_week'));
         chart.draw(data_week, week_options);
 
         var charts = new google.visualization.LineChart(document.getElementById('chart_all'));
