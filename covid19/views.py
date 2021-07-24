@@ -4,8 +4,6 @@ from urllib import request
 from bs4 import BeautifulSoup
 import urllib.request
 import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 import datetime
 
 
@@ -45,40 +43,6 @@ def covid19():
         data[i][0] -= datetime.timedelta(1)
 
     return data
-
-def visualize():
-    date = []
-    values = []
-    data_list = Data.objects.order_by('date')
-    for data in data_list:
-        date.append(data.date)
-        values.append(data.today)
-
-    x = np.arange(7)
-    date_week = []
-    values_week = []
-    i = 0
-    data_list = Data.objects.order_by('-date')
-
-    for data in data_list:
-        i += 1
-        if (i == 8):
-            break
-        date_week.append(data.date.strftime("%m-%d"))
-        values_week.append(data.today)
-    date_week.reverse()
-    values_week.reverse()
-
-    plt.plot_date(date, values, linestyle='solid')
-    plt.gcf().set_size_inches(8, 6)
-    plt.tight_layout()
-    plt.savefig('covid19-all.png')
-    plt.clf()
-
-    plt.bar(x, values_week)
-    plt.xticks(x, date_week)
-    plt.savefig('covid19-week.png')
-    plt.clf()
 
 def home(request):
     delete()

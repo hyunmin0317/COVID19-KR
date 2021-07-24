@@ -43,7 +43,7 @@
                 vAxis: {
                   minValue: 0
                 },
-                  width: 700,
+                  width: '100%',
                   height: 400,
                 };
 
@@ -52,7 +52,7 @@
                   vAxis: {
                       minValue: 0
                     },
-                  width: 700,
+                  width: '100%',
                   height: 400,
                 };
 
@@ -61,6 +61,7 @@
 
                 var charts = new google.visualization.LineChart(document.getElementById('chart_all'));
                 charts.draw(data, options);
+                window.addEventListener('resize', drawChart,false)
                 }
     </script>
 
@@ -95,43 +96,55 @@
       </div>
     </nav>
 
-    <div class="row marketing">
-        <div class="card" style="width: 10.5rem; float:left; margin-right:8.5px;">
-          <div class="card-body">
-              <h5 class="card-subtitle mb-2 text-muted">누적 확진자</h5>
-              <h4 class="card-title" style="color:#F15F5F;"><b>{{data.confirmed}}</b></h4>
-          </div>
+    <div style="padding-top: 30px;">
+        <div class="row gx-2">
+            <div class='col'>
+                <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-subtitle mb-2 text-muted">확진자</h5>
+                      <h4 class="card-title" style="color:#F15F5F;"><b>{{data.confirmed}}</b></h4>
+                  </div>
+                </div>
+            </div>
+            <div class='col'>
+                <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-subtitle mb-2 text-muted">사망자</h5>
+                      <h4 class="card-title" style="color:#2F4F4F;"><b>{{data.death}}</b></h4>
+                  </div>
+                </div>
+            </div>
+            <div class='col'>
+                <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-subtitle mb-2 text-muted">완치자</h5>
+                      <h4 class="card-title" style="color:#86E57F;"><b>{{data.released}}</b></h4>
+                  </div>
+                </div>
+            </div>
+            <div class='col'>
+                <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-subtitle mb-2 text-muted">검사자</h5>
+                      <h4 class="card-title" style="color:#6799FF;"><b>{{data.tested}}</b></h4>
+                  </div>
+                </div>
+            </div>
         </div>
-         <div class="card" style="width: 10.5rem; float:left; margin-right:8.5px;">
-          <div class="card-body">
-              <h5 class="card-subtitle mb-2 text-muted">사망자</h5>
-              <h4 class="card-title" style="color:#2F4F4F;"><b>{{data.death}}</b></h4>
-          </div>
-        </div>
-         <div class="card" style="width: 10.5rem; float:left; margin-right:8.5px;">
-          <div class="card-body">
-              <h5 class="card-subtitle mb-2 text-muted">완치자</h5>
-              <h4 class="card-title" style="color:#86E57F;"><b>{{data.released}}</b></h4>
-          </div>
-        </div>
-         <div class="card" style="width: 10.5rem; float:left; margin-right:8.5px;">
-          <div class="card-body">
-              <h5 class="card-subtitle mb-2 text-muted">검사자</h5>
-              <h4 class="card-title" style="color:#6799FF;"><b>{{data.tested}}</b></h4>
-          </div>
-        </div>
-
     </div>
 
-    <h3>{{data.string}} 신규합계</h3>
-    <h2 style="color:#F15F5F;"><b>{{data.today}}</b></h2>
-    <div id="chart_week" style="width: 700px; height: 400px; margin:auto;"></div>
-    <h3>신규 확진자수 추이</h3>
-    <div id="chart_all" style="width: 700px; height: 400px; margin:auto;"></div>
+    <div style="padding-top:50px;">
+        <h3>{{data.string}} 신규합계</h3>
+        <h2 style="color:#F15F5F;"><b>{{data.today}}</b></h2>
+        <div id="chart_week"></div>
+    </div>
 
-      <footer class="footer">
+    <h3>신규 확진자수 추이</h3>
+    <div id="chart_all"></div>
+
+    <footer class="footer">
         <p>© Hyunmin 2021</p>
-      </footer>
+    </footer>
 
     </div>
     <!-- /container -->
