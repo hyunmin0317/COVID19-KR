@@ -85,7 +85,6 @@ def home(request):
     data = covid19()
     for d in data:
         save(d[0], d[1], d[2], d[3], d[6], d[7])
-    # visualize()
 
     data_week = []
     data_list = Data.objects.order_by('-date')
