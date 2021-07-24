@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="71433f34-1f11-434c-af5e-6dbaccd156e0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/covid19/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/covid19/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
