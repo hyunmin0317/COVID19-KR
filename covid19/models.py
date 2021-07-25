@@ -21,4 +21,4 @@ class Data(models.Model):
 
     def update(self):
         update_date = self.date + datetime.timedelta(1)
-        return update_date
+        return update_date.strftime('%Y-%m-%d 11:00 AM')
