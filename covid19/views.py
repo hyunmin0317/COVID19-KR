@@ -44,12 +44,21 @@ def covid19():
 
     return data
 
-def home(request):
-    delete()
+def update():
     data = covid19()
-    for d in data:
-        save(d[0], d[1], d[2], d[3], d[6], d[7])
 
+    if(Data.objects.count()!=0):
+        last = Data.objects.last()
+        if (last.date != data[-1][0]):
+            delete()
+            for d in data:
+                save(d[0], d[1], d[2], d[3], d[6], d[7])
+    else:
+        for d in data:
+            save(d[0], d[1], d[2], d[3], d[6], d[7])
+
+def home(request):
+    update()
     data_week = []
     data_list = Data.objects.order_by('-date')
     i = 0
