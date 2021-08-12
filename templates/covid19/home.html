@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/hyunmin0317/COVID19-KR/main/static/icon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'icon.svg' %}">
     <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'jumbotron-narrow.css' %}">
@@ -75,6 +75,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'covid19:home' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-broadcast-pin" viewBox="0 0 16 16">
+                  <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM6 8a2 2 0 1 1 2.5 1.937V15.5a.5.5 0 0 1-1 0V9.937A2 2 0 0 1 6 8z"/>
+                </svg>
                 COVID19-KR
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,7 +115,7 @@
                   <div class="card-body">
                       <h5 class="card-subtitle mb-2 text-muted">사망자</h5>
                       <h4 class="card-title" style="color:#2F4F4F;"><b>{{data.death}}</b></h4>
-                      <h6 class="card-title" style="color:#2F4F4F;"><b>+ {{death}}</b></h6>
+                      <h6 class="card-title" style="color:#2F4F4F;"><b>+{{death}}</b></h6>
                   </div>
                 </div>
             </div>
@@ -121,7 +124,7 @@
                   <div class="card-body">
                       <h5 class="card-subtitle mb-2 text-muted">완치자</h5>
                       <h4 class="card-title" style="color:#86E57F;"><b>{{data.released}}</b></h4>
-                      <h6 class="card-title" style="color:#86E57F;"><b>+ {{released}}</b></h6>
+                      <h6 class="card-title" style="color:#86E57F;"><b>+{{released}}</b></h6>
                   </div>
                 </div>
             </div>
@@ -130,7 +133,7 @@
                   <div class="card-body">
                       <h5 class="card-subtitle mb-2 text-muted">검사자</h5>
                       <h4 class="card-title" style="color:#6799FF;"><b>{{data.tested}}</b></h4>
-                      <h6 class="card-title" style="color:#6799FF;"><b>+ {{tested}}</b></h6>
+                      <h6 class="card-title" style="color:#6799FF;"><b>+{{tested}}</b></h6>
                   </div>
                 </div>
             </div>
