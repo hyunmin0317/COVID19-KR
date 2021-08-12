@@ -52,10 +52,10 @@ def update():
         if (last.date != data[-1][0]):
             delete()
             for d in data:
-                save(d[0], d[1], d[2], d[3], d[6], d[7])
+                save(d[0], d[1], d[2], d[3], d[4], d[7])
     else:
         for d in data:
-            save(d[0], d[1], d[2], d[3], d[6], d[7])
+            save(d[0], d[1], d[2], d[3], d[4], d[7])
 
 def home(request):
     update()
@@ -69,6 +69,11 @@ def home(request):
         data_week.append(data)
     data_week.reverse()
     data_list.reverse()
+
+    death = data_list[0].death - data_list[1].death
+    released = data_list[0].released - data_list[1].released
+    tested = data_list[0].tested - data_list[1].tested
+
     today = Data.objects.last()
-    context = {'data':today, 'data_list':data_list, 'data_week':data_week}
+    context = {'data':today, 'data_list':data_list, 'data_week':data_week, 'death':death, 'released':released, 'tested':tested}
     return render(request, 'covid19/home.html', context)
