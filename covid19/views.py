@@ -70,10 +70,11 @@ def home(request):
     data_week.reverse()
     data_list.reverse()
 
+    today = data_list[0].today
     death = data_list[0].death - data_list[1].death
     released = data_list[0].released - data_list[1].released
     critical = data_list[0].critical - data_list[1].critical
 
-    today = Data.objects.last()
-    context = {'data':today, 'data_list':data_list, 'data_week':data_week, 'death':format(death,','), 'released':format(released,','), 'critical':format(critical,',')}
+    data = Data.objects.last()
+    context = {'data':data, 'data_list':data_list, 'data_week':data_week, 'today':format(today, ','),'death':format(death,','), 'released':format(released,','), 'critical':format(critical,',')}
     return render(request, 'covid19/home.html', context)
