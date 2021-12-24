@@ -11,8 +11,8 @@ def delete():
     d = Data.objects.all()
     d.delete()
 
-def save(date, confirmed, death, released, tested, today):
-    d = Data(date=date, confirmed=confirmed, death=death, released=released, tested=tested, today=today)
+def save(date, confirmed, death, released, critical, today):
+    d = Data(date=date, confirmed=confirmed, death=death, released=released, critical=critical, today=today)
     d.save()
 
 def covid19():
@@ -52,10 +52,10 @@ def update():
         if (last.date != data[-1][0]):
             delete()
             for d in data:
-                save(d[0], d[1], d[2], d[3], d[4], d[7])
+                save(d[0], d[1], d[2], d[3], d[6], d[7])
     else:
         for d in data:
-            save(d[0], d[1], d[2], d[3], d[4], d[7])
+            save(d[0], d[1], d[2], d[3], d[6], d[7])
 
 def home(request):
     update()
@@ -72,8 +72,8 @@ def home(request):
 
     death = data_list[0].death - data_list[1].death
     released = data_list[0].released - data_list[1].released
-    tested = data_list[0].tested - data_list[1].tested
+    critical = data_list[0].critical - data_list[1].critical
 
     today = Data.objects.last()
-    context = {'data':today, 'data_list':data_list, 'data_week':data_week, 'death':death, 'released':released, 'tested':tested}
+    context = {'data':today, 'data_list':data_list, 'data_week':data_week, 'death':format(death,','), 'released':format(released,','), 'critical':format(critical,',')}
     return render(request, 'covid19/home.html', context)

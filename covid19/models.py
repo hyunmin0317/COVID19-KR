@@ -10,7 +10,7 @@ class Data(models.Model):
     confirmed = models.IntegerField()
     death = models.IntegerField()
     released = models.IntegerField()
-    tested = models.IntegerField()
+    critical = models.IntegerField()
     today = models.IntegerField()
 
     def __str__(self):
