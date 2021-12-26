@@ -70,10 +70,16 @@ def home(request):
     data_week.reverse()
     data_list.reverse()
 
+
+
     today = format(data_list[0].today, ',')
     death = format(data_list[0].death - data_list[1].death, ',')
     released = format(data_list[0].released - data_list[1].released, ',')
-    critical = format(data_list[0].critical - data_list[1].critical, ',')
+    cri = data_list[0].critical - data_list[1].critical
+    if cri >= 0:
+        critical = "+" + format(cri, ',')
+    else:
+        critical = format(cri, ',')
 
     c = format(data_list[0].confirmed, ',')
     d = format(data_list[0].death, ',')
