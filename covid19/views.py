@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from xml.etree.ElementTree import fromstring, ElementTree
-import urllib.request
 import requests
 import datetime
 
@@ -12,11 +11,10 @@ def covid19_API(n):
 
 def vaccine_API():
     URL = 'https://nip.kdca.go.kr/irgd/cov19stats.do?list=all'
-    response = urllib.request.urlopen(URL)
-    xml_str = response.read().decode('utf-8')
+    response = requests.get(URL).text
     data = []
 
-    tree = ElementTree(fromstring(xml_str))
+    tree = ElementTree(fromstring(response))
     root = tree.getroot()
 
     for item in root.iter("item"):
