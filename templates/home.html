@@ -28,13 +28,13 @@
 
                 data_week.addRows([
                     {% for d in data_week %}
-                    ['{{d.string}}', {{d.today}}, {{d.today}}],
+                    ['{{d.S_DT}}', {{d.N_HJ}}, {{d.N_HJ}}],
                     {% endfor %}
                   ]);
 
                 data.addRows([
                     {% for d in data_list %}
-                    [new Date('{{d}}'), {{d.today}}],
+                    [new Date('{{d.S_DT}}'), {{d.N_HJ}}],
                     {% endfor %}
                   ]);
 
@@ -74,7 +74,7 @@
 <div align="center" class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'covid19:home' %}">
+            <a class="navbar-brand" href="{% url 'home' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-broadcast-pin" viewBox="0 0 16 16">
                   <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM6 8a2 2 0 1 1 2.5 1.937V15.5a.5.5 0 0 1-1 0V9.937A2 2 0 0 1 6 8z"/>
                 </svg>
@@ -93,7 +93,7 @@
               </li>
           </ul>
           <span class="navbar-text">
-              Update: {{data.update}}
+              Update: {{today.S_DT}} 09:00 AM
           </span>
         </div>
       </div>
@@ -105,8 +105,8 @@
                 <div class="card">
                   <div class="card-body">
                       <h5 class="card-subtitle mb-2 text-muted">확진자</h5>
-                      <h4 class="card-title" style="color:#F15F5F;"><b>{{c}}</b></h4>
-                      <h6 class="card-title" style="color:#F15F5F;"><b>+{{today}}</b></h6>
+                      <h4 class="card-title" style="color:#F15F5F;"><b>{{value.T_HJ}}</b></h4>
+                      <h6 class="card-title" style="color:#F15F5F;"><b>+{{value.N_HJ}}</b></h6>
                   </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                 <div class="card">
                   <div class="card-body">
                       <h5 class="card-subtitle mb-2 text-muted">사망자</h5>
-                      <h4 class="card-title" style="color:#2F4F4F;"><b>{{d}}</b></h4>
+                      <h4 class="card-title" style="color:#2F4F4F;"><b>{{value.DEATH}}</b></h4>
                       <h6 class="card-title" style="color:#2F4F4F;"><b>+{{death}}</b></h6>
                   </div>
                 </div>
@@ -123,7 +123,7 @@
                 <div class="card">
                   <div class="card-body">
                       <h5 class="card-subtitle mb-2 text-muted">완치자</h5>
-                      <h4 class="card-title" style="color:#86E57F;"><b>{{r}}</b></h4>
+                      <h4 class="card-title" style="color:#86E57F;"><b>{{value.RECOVER}}</b></h4>
                       <h6 class="card-title" style="color:#86E57F;"><b>+{{released}}</b></h6>
                   </div>
                 </div>
@@ -131,9 +131,9 @@
             <div class='col'>
                 <div class="card">
                   <div class="card-body">
-                      <h5 class="card-subtitle mb-2 text-muted">위중증자</h5>
-                      <h4 class="card-title" style="color:#6799FF;"><b>{{cr}}</b></h4>
-                      <h6 class="card-title" style="color:#6799FF;"><b>{{critical}}</b></h6>
+                      <h5 class="card-subtitle mb-2 text-muted">3차 접종</h5>
+                      <h4 class="card-title" style="color:#6799FF;"><b>{{vaccine}}</b></h4>
+                      <h6 class="card-title" style="color:#6799FF;"><b>+{{vaccine_today}}</b></h6>
                   </div>
                 </div>
             </div>
@@ -141,8 +141,8 @@
     </div>
 
     <div style="padding-top:50px;">
-        <h3>{{data.string}} 신규합계</h3>
-        <h2 style="color:#F15F5F;"><b>{{today}}</b></h2>
+        <h3>{{date}} 신규합계</h3>
+        <h2 style="color:#F15F5F;"><b>{{value.N_HJ}}</b></h2>
         <div id="chart_week"></div>
     </div>
 
@@ -150,7 +150,7 @@
     <div id="chart_all"></div>
 
     <footer class="footer">
-        <p>© Hyunmin 2021</p>
+        <p>Copyright © 2021 Hyunmin</p>
     </footer>
 
     </div>
