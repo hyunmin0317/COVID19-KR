@@ -18,12 +18,13 @@ def vaccine_API(date):
 
 def vaccine_data():
     today = datetime.datetime.today()
-    data = []
-    while(len(data)==0):
-        date = today.strftime('%Y-%m-%d')
-        data = vaccine_API(date)
-        today -= datetime.timedelta(days=1)
-    return format(data[0]['thirdCnt'], ','), format(data[0]['totalThirdCnt'], ',')
+    date = today.strftime('%Y-%m-%d')
+    data = vaccine_API(date)
+
+    if (len(data)):
+        return data[0]['thirdCnt'], data[0]['totalThirdCnt']
+    else:
+        return 0, 0
 
 def home(request):
     today, yesterday = covid19_API(1)[0], covid19_API(2)[1]
