@@ -14,15 +14,17 @@ def vaccine_API():
     response = requests.get(URL).text
     data = []
 
-    tree = ElementTree(fromstring(response))
-    root = tree.getroot()
+    return 0, 1
 
-    for item in root.iter("item"):
-        value = int(item.find('thirdCnt').text)
-        value = format(value, ',')
-        data.append(value)
-    print(data)
-    return data[0], data[2]
+    # tree = ElementTree(fromstring(response))
+    # root = tree.getroot()
+    #
+    # for item in root.iter("item"):
+    #     value = int(item.find('thirdCnt').text)
+    #     value = format(value, ',')
+    #     data.append(value)
+    # print(data)
+    # return data[0], data[2]
 
 def home(request):
     today, yesterday = covid19_API(1)[0], covid19_API(2)[1]
