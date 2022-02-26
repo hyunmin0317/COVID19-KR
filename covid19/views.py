@@ -13,8 +13,7 @@ def covid19_API(n):
 
 def vaccine_API():
     URL = 'https://nip.kdca.go.kr/irgd/cov19stats.do?list=all'
-    headers = {'User-Agent':'Chrome/66.0.3359.181'}
-    req = urllib.request.Request(URL, headers=headers)
+    req = urllib.request.Request(URL, headers={'User-Agent':'Mozilla/5.0'})
     response = urllib.request.urlopen(req)
     xml_str = response.read().decode('utf-8')
     data = []
