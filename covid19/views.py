@@ -9,27 +9,26 @@ def covid19_API(n):
     data = API['TbCorona19CountStatus']['row']
     return data
 
-def vaccine_API():
-    URL = 'https://nip.kdca.go.kr/irgd/cov19stats.do?list=all'
-    response = requests.get(URL).text
+def vaccine_API(date):
+    url = 'https://api.odcloud.kr/api/15077756/v1/vaccine-stat'
+    params = {'cond[baseDate::GTE]': date}
+    headers = {'Authorization': 'Infuser ngBWAbFCU4zZ0MTZmuC3CQt6OIXK3Gj3bJPWfPvfLW5Me0ThmPgaBnoEafkVWWcccDdp84z+8qHwNjcttmw7HQ=='}
+    response = requests.get(url, headers=headers, params=params).json()
+    return response['data']
+
+def vaccine_data():
+    today = datetime.datetime.today()
     data = []
-
-    return 0, 1
-
-    # tree = ElementTree(fromstring(response))
-    # root = tree.getroot()
-    #
-    # for item in root.iter("item"):
-    #     value = int(item.find('thirdCnt').text)
-    #     value = format(value, ',')
-    #     data.append(value)
-    # print(data)
-    # return data[0], data[2]
+    while(len(data)==0):
+        date = today.strftime('%Y-%m-%d')
+        data = vaccine_API(date)
+        today -= datetime.timedelta(days=1)
+    return format(data[0]['thirdCnt'], ','), format(data[0]['totalThirdCnt'], ',')
 
 def home(request):
     today, yesterday = covid19_API(1)[0], covid19_API(2)[1]
     data_week, data_list = covid19_API(7), covid19_API(30)
-    vaccine_today, vaccine = vaccine_API()
+    vaccine_today, vaccine = vaccine_data()
 
     data_week.reverse()
     data_list.reverse()
