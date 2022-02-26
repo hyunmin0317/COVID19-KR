@@ -13,7 +13,7 @@ def vaccine_API(date):
     url = 'https://api.odcloud.kr/api/15077756/v1/vaccine-stat'
     params = {'cond[baseDate::GTE]': date}
     headers = {'Authorization': 'Infuser ngBWAbFCU4zZ0MTZmuC3CQt6OIXK3Gj3bJPWfPvfLW5Me0ThmPgaBnoEafkVWWcccDdp84z+8qHwNjcttmw7HQ=='}
-    response = requests.get(url, headers=headers, params=params).json()
+    response = requests.get(url, headers=headers, params=params, verify=False).json()
     return response['data']
 
 def vaccine_data():
