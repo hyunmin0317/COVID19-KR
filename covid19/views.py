@@ -1,7 +1,4 @@
-import urllib
-
 from django.shortcuts import render
-from xml.etree.ElementTree import fromstring, ElementTree
 import requests
 import datetime
 
@@ -11,44 +8,28 @@ def covid19_API(n):
     data = API['TbCorona19CountStatus']['row']
     return data
 
-def vaccine_API():
-    URL = 'https://nip.kdca.go.kr/irgd/cov19stats.do?list=all'
-    req = urllib.request.Request(URL, headers={'User-Agent':'Mozilla/5.0'})
-    response = urllib.request.urlopen(req)
-    xml_str = response.read().decode('utf-8')
-    data = []
-
-    tree = ElementTree(fromstring(xml_str))
-    root = tree.getroot()
-
-    for item in root.iter("item"):
-        value = item.find('thirdCnt').text
-        data.append(value)
-    vaccine_today, vaccine = format(int(data[0]), ','), format(int(data[2]), ',')
-    return vaccine_today, vaccine
-
 def home(request):
-    today, yesterday = covid19_API(1)[0], covid19_API(2)[1]
     data_week, data_list = covid19_API(7), covid19_API(30)
-    vaccine_today, vaccine = vaccine_API()
-
-    data_week.reverse()
-    data_list.reverse()
+    today, yesterday = data_week[0], data_week[1]
+    data_week.reverse(), data_list.reverse()
 
     for data in data_week:
         data['S_DT'] = data['S_DT'][5:10]
     for data in data_list:
         data['S_DT'] = datetime.datetime.strptime(data['S_DT'],"%Y.%m.%d.%H").strftime('%Y-%m-%d')
-    today['S_DT'] = today['S_DT'][:11]
-
-    death = int(today['DEATH']) - int(yesterday['DEATH'])
-    released = int(today['RECOVER']) - int(yesterday['RECOVER'])
-    death = format(death, ',')
-    released = format(released, ',')
     date = data_week[-2]['S_DT']
-    value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','),
-             'DEATH':format(int(today['DEATH']), ','), 'RECOVER':format(int(today['RECOVER']), ',')}
 
-    context = {"today":today, "data_week":data_week, "data_list":data_list, 'death':death, 'released':released,
-               'vaccine_today':vaccine_today, 'vaccine':vaccine, 'value':value, 'date':date}
+    death = format(int(today['DEATH']) - int(yesterday['DEATH']), ',')
+    released = format(int(today['RECOVER']) - int(yesterday['RECOVER']), ',')
+    tycare = int(today['TY_CARE']) - int(yesterday['TY_CARE'])
+    if tycare >= 0:
+        care = "+" + format(tycare, ',')
+    else:
+        care = format(tycare, ',')
+
+    value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','), 'TY_CARE':format(int(today['TY_CARE']), ','),
+             'DEATH':format(int(today['DEATH']), ','), 'RECOVER':format(int(today['RECOVER']), ','), 'T_DT':today['T_DT'][:11]}
+
+    context = {"today":today, "data_week":data_week, "data_list":data_list, 'death':death,
+               'released':released, 'care':care, 'value':value, 'date':date}
     return render(request, 'home.html', context)
