@@ -1,18 +1,18 @@
 # COVID19-KR
 
-### 코로나19 한국 대시보드
+### 코로나19 대시보드
 
 ---
 
 ## :globe_with_meridians: Website URL
 
-* ### [COVID19-KR](http://hyunmin.pythonanywhere.com/covid19/kr/)
+* ### [COVID19-KR](http://covid19kr.pythonanywhere.com/)
 
 <br>
 
-## :books: Data source
+## :blue_book: Data source
 
-* ### [coronaboard_kr](https://github.com/jooeungen/coronaboard_kr)
+* ### [코로나19 확진자 발생동향](https://data.seoul.go.kr/dataList/OA-20461/S/1/datasetView.do)
 
 <br>
 
