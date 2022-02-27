@@ -6,7 +6,7 @@
 
 ## :globe_with_meridians: Website URL
 
-* ### [COVID19-KR](http://covid19kr.pythonanywhere.com/)
+* ### [COVID19-KR](https://covid19kr.pythonanywhere.com/)
 
 <br>
 
