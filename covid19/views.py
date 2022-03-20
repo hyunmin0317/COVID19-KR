@@ -17,19 +17,11 @@ def home(request):
         data['S_DT'] = data['S_DT'][5:10]
     for data in data_list:
         data['S_DT'] = datetime.datetime.strptime(data['S_DT'],"%Y.%m.%d.%H").strftime('%Y-%m-%d')
-    date = data_week[-2]['S_DT']
 
+    date = data_week[-1]['S_DT']
     death = format(int(today['DEATH']) - int(yesterday['DEATH']), ',')
-    released = format(int(today['RECOVER']) - int(yesterday['RECOVER']), ',')
-    tycare = int(today['TY_CARE']) - int(yesterday['TY_CARE'])
-    if tycare >= 0:
-        care = "+" + format(tycare, ',')
-    else:
-        care = format(tycare, ',')
+    value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','),
+             'T_DEATH':format(int(today['DEATH']), ','), 'N_DEATH': death, 'T_DT':today['T_DT'][:11], 'S_DT':date}
 
-    value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','), 'TY_CARE':format(int(today['TY_CARE']), ','),
-             'DEATH':format(int(today['DEATH']), ','), 'RECOVER':format(int(today['RECOVER']), ','), 'T_DT':today['T_DT'][:11]}
-
-    context = {"today":today, "data_week":data_week, "data_list":data_list, 'death':death,
-               'released':released, 'care':care, 'value':value, 'date':date}
+    context = {"data_week":data_week, "data_list":data_list, 'value':value}
     return render(request, 'home.html', context)
