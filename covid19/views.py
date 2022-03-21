@@ -20,14 +20,13 @@ def covid19_data():
     else:
         crit = format(cri, ',')
 
-    test = [format(int(today[4]), ','), format(int(today[4]) - int(yesterday[4]), ',')]
     critical = [format(int(today[-1]), ','), crit]
-    return test, critical
+    return critical
 
 def home(request):
     data_week, data_list = covid19_API(7), covid19_API(30)
     today, yesterday = data_week[0], data_week[1]
-    test, critical = covid19_data()
+    critical = covid19_data()
     data_week.reverse(), data_list.reverse()
 
     for data in data_week:
@@ -37,9 +36,7 @@ def home(request):
 
     date = data_week[-1]['S_DT']
     death = format(int(today['DEATH']) - int(yesterday['DEATH']), ',')
-    value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','),
-             'T_DEATH':format(int(today['DEATH']), ','), 'N_DEATH': death, 'T_DT':today['T_DT'][:11], 'S_DT':date,
-             'T_TEST':test[0], 'N_TEST':test[1], 'T_CRI':critical[0], 'N_CRI':critical[1]}
-
+    value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','), 'T_DT':today['T_DT'][:11], 'S_DT':date,
+             'T_DEATH':format(int(today['DEATH']), ','), 'N_DEATH': death, 'T_CRI':critical[0], 'N_CRI':critical[1]}
     context = {"data_week":data_week, "data_list":data_list, 'value':value}
     return render(request, 'home.html', context)
