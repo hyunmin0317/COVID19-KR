@@ -13,6 +13,7 @@
 ## :blue_book: Data source
 
 * ### [코로나19 확진자 발생동향](https://data.seoul.go.kr/dataList/OA-20461/S/1/datasetView.do)
+* ### [coronaboard_kr](https://github.com/jooeungen/coronaboard_kr)
 
 <br>
 
