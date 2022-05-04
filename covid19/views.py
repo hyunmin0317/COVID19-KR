@@ -1,6 +1,10 @@
 from django.shortcuts import render
 import requests
 import datetime
+from rest_framework.generics import ListAPIView
+from covid19.models import Data
+from covid19.serializers import DataSerializer
+
 
 def covid19_API(n):
     URL = 'http://openapi.seoul.go.kr:8088/547171685163686f35324270474f6e/json/TbCorona19CountStatus/1/'+str(n)+'/'
@@ -40,3 +44,29 @@ def home(request):
              'T_DEATH':format(int(today['DEATH']), ','), 'N_DEATH': death, 'T_CRI':critical[0], 'N_CRI':critical[1]}
     context = {"data_week":data_week, "data_list":data_list, 'value':value}
     return render(request, 'home.html', context)
+
+class ListAPI(ListAPIView):
+    serializer_class = DataSerializer
+    def get_queryset(self):
+        year = self.kwargs['year']
+        month = self.kwargs['month']
+        day = self.kwargs['day']
+        date = '%04d.%02d.%02d' % (year, month, day)
+        update()
+        return Data.objects.filter(date=date)
+
+def update():
+    data_list = covid19_API(365)
+
+    for data in data_list:
+        try:
+            covid = Data(
+                date=data['S_DT'][:10],
+                confirmed=format(int(data['T_HJ']), ','),
+                death=format(int(data['DEATH']), ','),
+                today_confirmed=format(int(data['N_HJ']), ','),
+                today_death=format(int(data['ALL_DAY_DEATH']), ',')
+            )
+            covid.save()
+        except:
+            continue
