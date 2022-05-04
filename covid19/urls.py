@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import ListAPI
+from .views import DetailAPI
 
 urlpatterns = [
-    path('<int:year>/<int:month>/<int:day>/', ListAPI.as_view()),
+    path('<str:date>/', DetailAPI.as_view()),
 ]

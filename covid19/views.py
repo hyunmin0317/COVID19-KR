@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import requests
 import datetime
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import RetrieveAPIView
 from covid19.models import Data
 from covid19.serializers import DataSerializer
 
@@ -45,15 +45,12 @@ def home(request):
     context = {"data_week":data_week, "data_list":data_list, 'value':value}
     return render(request, 'home.html', context)
 
-class ListAPI(ListAPIView):
+class DetailAPI(RetrieveAPIView):
+    lookup_field = 'date'
     serializer_class = DataSerializer
     def get_queryset(self):
-        year = self.kwargs['year']
-        month = self.kwargs['month']
-        day = self.kwargs['day']
-        date = '%04d.%02d.%02d' % (year, month, day)
         update()
-        return Data.objects.filter(date=date)
+        return Data.objects.all()
 
 def update():
     data_list = covid19_API(365)
