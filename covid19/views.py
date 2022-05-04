@@ -49,7 +49,7 @@ class DetailAPI(RetrieveAPIView):
     lookup_field = 'date'
     serializer_class = DataSerializer
     def get_queryset(self):
-        # update()
+        update()
         return Data.objects.all()
 
 def update():
