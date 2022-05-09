@@ -39,9 +39,8 @@ def home(request):
         data['S_DT'] = datetime.datetime.strptime(data['S_DT'],"%Y.%m.%d.%H").strftime('%Y-%m-%d')
 
     date = data_week[-1]['S_DT']
-    death = format(int(today['DEATH']) - int(yesterday['DEATH']), ',')
     value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','), 'T_DT':today['T_DT'][:11], 'S_DT':date,
-             'T_DEATH':format(int(today['DEATH']), ','), 'N_DEATH': death, 'T_CRI':critical[0], 'N_CRI':critical[1]}
+             'T_DEATH':format(int(today['DEATH']), ','), 'N_DEATH': format(int(today['ALL_DAY_DEATH'])), 'T_CRI':critical[0], 'N_CRI':critical[1]}
     context = {"data_week":data_week, "data_list":data_list, 'value':value}
     return render(request, 'home.html', context)
 
