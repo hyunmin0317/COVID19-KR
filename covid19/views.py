@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import requests
 import datetime
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 from covid19.models import Data
 from covid19.serializers import DataSerializer
 
@@ -11,6 +11,7 @@ def covid19_API(n):
     API = requests.get(URL).json()
     data = API['TbCorona19CountStatus']['row']
     return data
+
 
 def covid19_data():
     URL = 'https://raw.githubusercontent.com/jooeungen/coronaboard_kr/master/kr_daily.csv'
@@ -26,6 +27,24 @@ def covid19_data():
 
     critical = [format(int(today[-1]), ','), crit]
     return critical
+
+
+def update():
+    data_list = covid19_API(365)
+
+    for data in data_list:
+        try:
+            covid = Data(
+                date=data['S_DT'][:10],
+                confirmed=format(int(data['T_HJ']), ','),
+                death=format(int(data['DEATH']), ','),
+                today_confirmed=format(int(data['N_HJ']), ','),
+                today_death=format(int(data['ALL_DAY_DEATH']), ',')
+            )
+            covid.save()
+        except:
+            continue
+
 
 def home(request):
     data_week, data_list = covid19_API(7), covid19_API(30)
@@ -44,6 +63,7 @@ def home(request):
     context = {"data_week":data_week, "data_list":data_list, 'value':value}
     return render(request, 'home.html', context)
 
+
 class DetailAPI(RetrieveAPIView):
     lookup_field = 'date'
     serializer_class = DataSerializer
@@ -51,18 +71,7 @@ class DetailAPI(RetrieveAPIView):
         update()
         return Data.objects.all()
 
-def update():
-    data_list = covid19_API(365)
 
-    for data in data_list:
-        try:
-            covid = Data(
-                date=data['S_DT'][:10],
-                confirmed=format(int(data['T_HJ']), ','),
-                death=format(int(data['DEATH']), ','),
-                today_confirmed=format(int(data['N_HJ']), ','),
-                today_death=format(int(data['ALL_DAY_DEATH']), ',')
-            )
-            covid.save()
-        except:
-            continue
+class AllAPI(ListAPIView):
+    queryset = Data.objects.all()
+    serializer_class = DataSerializer
