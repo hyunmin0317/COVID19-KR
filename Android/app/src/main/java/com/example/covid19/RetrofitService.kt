@@ -10,4 +10,7 @@ interface RetrofitService {
     fun getDateList(
         @Path("date") date: String
     ): Call<Covid>
+
+    @GET("covid19/all/")
+    fun getDataList(): Call<ArrayList<Covid>>
 }

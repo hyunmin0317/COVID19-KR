@@ -1,5 +1,6 @@
 package com.example.covid19
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
             Date = "%04d.%02d.%02d".format(year, month+1, day)
             changeDate(Date)
         }
+
+        check.setOnClickListener { startActivity(Intent(this@MainActivity, ListActivity::class.java)) }
     }
 
     fun changeDate(date: String) {
