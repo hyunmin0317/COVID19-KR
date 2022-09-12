@@ -75,3 +75,9 @@ class DetailAPI(RetrieveAPIView):
 class AllAPI(ListAPIView):
     queryset = Data.objects.all()
     serializer_class = DataSerializer
+
+
+def test(request):
+    data = Data.objects.all()
+    context = {'datas': data}
+    return render(request, 'test.html', context)

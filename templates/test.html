@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Hello</h1>
+
+{{ datas }}
+
+{% for data in datas %}
+    날짜: {{ data }}<br>
+    확진자: {{ data.today_confirmed }}<br>
+    사망자: {{ data.today_death }}<br><br>
+{% endfor %}
+
+</body>
+</html>
