@@ -61,7 +61,7 @@ def home(request):
     value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','), 'T_DT':today['T_DT'][:11], 'S_DT':date,
              'T_DEATH':format(int(today['DEATH']), ','), 'N_DEATH': format(int(today['ALL_DAY_DEATH'])), 'T_CRI':critical[0], 'N_CRI':critical[1]}
     context = {"data_week":data_week, "data_list":data_list, 'value':value}
-    return render(request, 'home.html', context)
+    return render(request, 'index.html', context)
 
 
 class DetailAPI(RetrieveAPIView):
@@ -75,9 +75,3 @@ class DetailAPI(RetrieveAPIView):
 class AllAPI(ListAPIView):
     queryset = Data.objects.all()
     serializer_class = DataSerializer
-
-
-def test(request):
-    data = Data.objects.all()
-    context = {'datas': data}
-    return render(request, 'test.html', context)
