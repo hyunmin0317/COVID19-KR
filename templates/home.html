@@ -81,7 +81,7 @@
         </div>
 
         <h3>신규 확진자수 추이</h3>
-        <div id="chart_all"></div>
+        <div id="chart_year"></div>
 
         <footer class="footer">
             <p>Copyright © 2021 Hyunmin</p>
@@ -92,58 +92,10 @@
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+<script type="text/javascript" src="{% static 'chart.js' %}"></script>
 <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart', 'bar']});
-    google.charts.load('current', {packages: ['corechart', 'line']});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data_week = new google.visualization.DataTable();
-        data_week.addColumn('string', '날짜');
-        data_week.addColumn('number', '확진자');
-        data_week.addColumn({type:'number', role:'annotation'})
-
-        var data = new google.visualization.DataTable();
-        data.addColumn('date', '날짜');
-        data.addColumn('number', '확진자');
-
-        data_week.addRows([
-            {% for d in data_week %}
-                ['{{d.S_DT}}', {{d.N_HJ}}, {{d.N_HJ}}],
-            {% endfor %}
-        ]);
-
-        data.addRows([
-            {% for d in data_list %}
-                [new Date('{{d.S_DT}}'), {{d.N_HJ}}],
-            {% endfor %}
-        ]);
-
-        var week_options = {
-            colors: ['#F15F5F'],
-            vAxis: {
-                minValue: 0
-            },
-            width: '100%',
-            height: 400,
-        };
-
-        var options = {
-            colors: ['#F15F5F'],
-            vAxis: {
-                minValue: 0
-            },
-            width: '100%',
-            height: 400,
-        };
-
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_week'));
-        chart.draw(data_week, week_options);
-
-        var charts = new google.visualization.LineChart(document.getElementById('chart_all'));
-        charts.draw(data, options);
-        window.addEventListener('resize', drawChart,false)
-    }
+    var week_data = {{ data_week|safe }};
+    var year_data = {{ data_year|safe }};
+    year_data = year_data.map(x => [new Date(x[0]), x[1]]);
 </script>
 </html>

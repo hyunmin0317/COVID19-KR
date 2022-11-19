@@ -1,9 +1,6 @@
 from django.shortcuts import render
 import requests
 import datetime
-from rest_framework.generics import RetrieveAPIView, ListAPIView
-from covid19.models import Data
-from covid19.serializers import DataSerializer
 
 
 def covid19_API(n):
@@ -29,49 +26,19 @@ def covid19_data():
     return critical
 
 
-def update():
-    data_list = covid19_API(365)
-
-    for data in data_list:
-        try:
-            covid = Data(
-                date=data['S_DT'][:10],
-                confirmed=format(int(data['T_HJ']), ','),
-                death=format(int(data['DEATH']), ','),
-                today_confirmed=format(int(data['N_HJ']), ','),
-                today_death=format(int(data['ALL_DAY_DEATH']), ',')
-            )
-            covid.save()
-        except:
-            continue
-
-
 def home(request):
-    data_week, data_list = covid19_API(7), covid19_API(30)
-    today, yesterday = data_week[0], data_week[1]
+    data_year = covid19_API(365)
+    today, yesterday = data_year[0], data_year[1]
     critical = covid19_data()
-    data_week.reverse(), data_list.reverse()
 
-    for data in data_week:
-        data['S_DT'] = data['S_DT'][5:10]
-    for data in data_list:
-        data['S_DT'] = datetime.datetime.strptime(data['S_DT'],"%Y.%m.%d.%H").strftime('%Y-%m-%d')
-
-    date = data_week[-1]['S_DT']
-    value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','), 'T_DT':today['T_DT'][:11], 'S_DT':date,
+    for data in data_year:
+        data['W_DT'] = data['S_DT'][5:10]
+        data['Y_DT'] = datetime.datetime.strptime(data['S_DT'],"%Y.%m.%d.%H").strftime('%Y-%m-%d')
+    value = {'T_HJ':format(int(today['T_HJ']), ','), 'N_HJ':format(int(today['N_HJ']), ','), 'T_DT':today['T_DT'][:11], 'S_DT':data_year[0]['W_DT'],
              'T_DEATH':format(int(today['DEATH']), ','), 'N_DEATH': format(int(today['ALL_DAY_DEATH'])), 'T_CRI':critical[0], 'N_CRI':critical[1]}
-    context = {"data_week":data_week, "data_list":data_list, 'value':value}
+    data_week = list(map(lambda x: [x['W_DT'], int(x['N_HJ']), int(x['N_HJ'])], data_year[:7]))
+    data_year = list(map(lambda x: [x['Y_DT'], int(x['N_HJ'])], data_year))
+    data_week.reverse()
+
+    context = {"data_week":data_week, "data_year":data_year, 'value':value}
     return render(request, 'home.html', context)
-
-
-class DetailAPI(RetrieveAPIView):
-    lookup_field = 'date'
-    serializer_class = DataSerializer
-    def get_queryset(self):
-        update()
-        return Data.objects.all()
-
-
-class AllAPI(ListAPIView):
-    queryset = Data.objects.all()
-    serializer_class = DataSerializer
